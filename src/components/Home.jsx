@@ -2,7 +2,11 @@ import React from "react";
 import car_image from "../assets/car.jpg";
 import Enquiry from "../model/Enquiry";
 import { Link } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
+import useGetProfile from "../hooks/useGetProfile";
 const Home = () => {
+  const { Profile } = useGetProfile();
+  const { loading, logout } = useLogout();
   return (
     <div>
       <div className="h-screen w-screen relative">
@@ -34,31 +38,42 @@ const Home = () => {
                       <a>Service</a>
                     </li>
                   </Link>
-                  <Link to="/signup">
+                  {/* <Link to="/signup">
                     <li>
                       <a>Profile</a>
                     </li>
-                  </Link>
+                  </Link> */}
                   <Link to="/history">
                     <li>
                       <a>History</a>
                     </li>
                   </Link>
-                  <Link to="/logout">
-                    <li>
-                      <a>Logout</a>
-                    </li>
-                  </Link>
+                    {!loading ? (
+                      <li onClick={logout}>
+                        <a>Logout</a>
+                      </li>
+                    ) : (
+                      <span className="loading loading-spinner"></span>
+                    )}
                 </ul>
               </details>
             </li>
           </ul>
+          <div className="avatar">
+          <div className="w-8 rounded-full">
+            <img src={Profile.profilepic} alt="user avatar" />
+          </div>
+        </div>
         </div>
       </div>
       <div className="absolute bottom-[30%] left-[20%]  flex justify-center flex-col items-center gap-2">
         <div className="flex justify-center flex-col items-center">
-          <p className="text-md phone-sm:text-md lapi:text-2xl  text-white">TRUSTED AND EFFECTIVE </p>
-          <p className="text-xl phone-sm:text-xl lapi:text-4xl text-white font-bold">CAR SPA SERVICES</p>
+          <p className="text-md phone-sm:text-md lapi:text-2xl  text-white">
+            TRUSTED AND EFFECTIVE
+          </p>
+          <p className="text-xl phone-sm:text-xl lapi:text-4xl text-white font-bold">
+            CAR SPA SERVICES
+          </p>
         </div>
         <div>
           <Enquiry />
