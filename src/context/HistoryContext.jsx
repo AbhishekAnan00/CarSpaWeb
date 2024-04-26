@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { car } from "../data/Car";
 
 export const HistoryContext = createContext("");
@@ -12,7 +12,14 @@ const getDefaultHistory = () => {
 };
 
 export const HistoryContextProvider = (props) => {
-  const [HistoryItems, setHistoryItems] = useState(getDefaultHistory());
+  const [HistoryItems, setHistoryItems] = useState(() => {
+    const storedHistory = localStorage.getItem("history");
+    return storedHistory ? JSON.parse(storedHistory) : getDefaultHistory();
+  });
+
+  useEffect(() => {
+    localStorage.setItem("history", JSON.stringify(HistoryItems));
+  }, [HistoryItems]);
 
   const addToHistory = (itemId) => {
     setHistoryItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));

@@ -27,7 +27,7 @@ function App() {
           path="/signup"
           element={authUser ? <Navigate to="/" /> : <Signup />}
         />
-        <Route path="/history" element={ <History /> } /> 
+        <Route path="/history" element={ authUser ? <History /> : <Navigate to={"/login"} />} /> 
       </Routes>
       <Toaster />
     </>
@@ -35,5 +35,3 @@ function App() {
 }
 
 export default App;
-
-// element={ authUser ? <History /> : <Navigate to={"/login"} />}

@@ -26,7 +26,7 @@ export const History = () => {
         return null;
       }).filter((item) => item !== null);
 
-      const res = await fetch("https://localhost:9000/checkout", {
+      const res = await fetch("https://localhost:3000/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

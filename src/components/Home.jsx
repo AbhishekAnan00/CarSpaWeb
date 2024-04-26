@@ -19,7 +19,7 @@ const Home = () => {
           className="h-screen w-screen"
           loading="lazy"
         />
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
       </div>
       <div className="navbar absolute top-6 w-screen ">
         <div className="flex-1">
