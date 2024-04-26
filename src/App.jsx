@@ -7,7 +7,7 @@ import Login from "./Profile/Login";
 import Signup from "./Profile/Signup";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext";
-import History from "./components/History";
+import {History} from "./components/History";
 function App() {
   const { authUser } = useAuthContext();
   return (
@@ -27,7 +27,7 @@ function App() {
           path="/signup"
           element={authUser ? <Navigate to="/" /> : <Signup />}
         />
-        <Route path="/history" element={ authUser ? <History /> : <Navigate to={"/login"} />} /> 
+        <Route path="/history" element={ <History /> } /> 
       </Routes>
       <Toaster />
     </>
@@ -35,3 +35,5 @@ function App() {
 }
 
 export default App;
+
+// element={ authUser ? <History /> : <Navigate to={"/login"} />}

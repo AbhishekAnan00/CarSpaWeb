@@ -49,7 +49,7 @@ const ServiceType = () => {
   ];
   return (
     <div>
-      <div className="text-center text-xl font-bold">Service Type</div>
+      <div className="text-center text-xl font-bold">Service</div>
       {servicetype.map((elem) => {
         return (
           <div className="flex phone-sm:flex-col lapi:flex-row justify-center items-center w-full lapi:gap-10 phone-sm:gap-0 h-auto py-4">

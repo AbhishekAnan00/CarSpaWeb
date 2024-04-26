@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import car_image from "../assets/car.jpg";
 import Enquiry from "../model/Enquiry";
 import { Link } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import useGetProfile from "../hooks/useGetProfile";
+import { FaCircleUser } from "react-icons/fa6";
+import { HistoryContext } from "../context/HistoryContext";
 const Home = () => {
+  const { getTotalCartItems } = useContext(HistoryContext);
   const { Profile } = useGetProfile();
   const { loading, logout } = useLogout();
   return (
@@ -26,23 +29,18 @@ const Home = () => {
           <ul className="menu menu-horizontal px-1">
             <li>
               <details>
-                <summary>Customer</summary>
+                <summary>{Profile.fullname || "Customer"}</summary>
                 <ul className="p-2 bg-base-100 rounded-t-none">
                   <Link to="/">
                     <li>
                       <a>Home</a>
                     </li>
                   </Link>
-                  <Link to="/service">
+                  <Link to="/servicetype">
                     <li>
                       <a>Service</a>
                     </li>
                   </Link>
-                  {/* <Link to="/signup">
-                    <li>
-                      <a>Profile</a>
-                    </li>
-                  </Link> */}
                   <Link to="/history">
                     <li>
                       <a>History</a>
@@ -61,7 +59,7 @@ const Home = () => {
           </ul>
           <div className="avatar">
           <div className="w-8 rounded-full">
-            <img src={Profile.profilepic} alt="user avatar" />
+            <img src={Profile.profilepic || <FaCircleUser />} alt="user avatar" />
           </div>
         </div>
         </div>
