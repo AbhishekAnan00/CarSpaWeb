@@ -1,17 +1,32 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { loadStripe } from "@stripe/stripe-js";
 import { HistoryItem } from "./HistoryItem";
 import { useNavigate } from "react-router-dom";
 import { HistoryContext } from "../context/HistoryContext";
 import { car } from "../data/Car";
 import { fuel } from "../data/Fuel";
+import toast from 'react-hot-toast';
+
 export const History = () => {
   const { HistoryItems, getTotalHistoryAmount } = useContext(HistoryContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [stripe, setStripe] = useState(null);
 
-  //stripe payment
+  useEffect(() => {
+    const initializeStripe = async () => {
+      const stripeObj = await loadStripe("pk_test_51P9rAYSCmMmyG3raV5oAy7unMB3YQCJy2K69lMrlxdXqu2l9pjtrB49W2onIVH3WjqYtCKvFLgzSHqZxYkwjhjKE00Kuj78Twl");
+      setStripe(stripeObj);
+    };
+
+    initializeStripe();
+  }, []);
+
   // Function to handle the checkout process
   const handleCheckout = async () => {
     try {
+      setLoading(true);
+
       const items = Object.keys(HistoryItems).map((itemId) => {
         const quantity = HistoryItems[itemId];
         if (quantity > 0) {
@@ -26,7 +41,7 @@ export const History = () => {
         return null;
       }).filter((item) => item !== null);
 
-      const res = await fetch("https://localhost:3000/checkout", {
+      const res = await fetch("http://localhost:3000/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,9 +50,27 @@ export const History = () => {
       });
 
       const data = await res.json();
-      window.location = data.url;
+      console.log("Checkout response:", data);
+      if (data.sessionId && stripe) {
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.sessionId,
+        });
+
+        if (error) {
+          console.error("Error during checkout:", error.message);
+          toast.error('Payment failed');
+        } else {
+          toast.success('Payment successful');
+        }
+      } else {
+        console.error("Error processing checkout:", data.error);
+        toast.error('Payment failed');
+      }
     } catch (error) {
       console.error("Error during checkout:", error.message);
+      toast.error('Payment failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,17 +100,19 @@ export const History = () => {
           return null;
         })}
       </div>
-        <div className="checkout flex flex-col">
-          <div className="mt-4">
-            <p className="text-white">subtotal: ${getTotalHistoryAmount()}</p>
-          </div>
-          <div className="flex justify-around">
-            <button onClick={() => navigate("/servicetype")} className="btn">
-              continue shopping
-            </button>
-            <button className="btn" onClick={handleCheckout}>Checkout</button>
-          </div>
+      <div className="checkout flex flex-col">
+        <div className="mt-4">
+          <p className="text-white">subtotal: ₹{getTotalHistoryAmount()}</p>
         </div>
+        <div className="flex justify-around">
+          <button onClick={() => navigate("/servicetype")} className="btn">
+            continue service
+          </button>
+          <button className="btn" onClick={handleCheckout} disabled={loading}>
+            {loading ? 'Processing...' : 'Checkout'}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -14,7 +14,7 @@ export const HistoryItem = ({ id, name, icon, price, quantity,fuelIcon }) => {
        <p>
           <b>{name}</b>
         </p>
-        <p> ${price} </p>
+        <p> ₹{price} </p>
         <div className="countHandler">
           <button onClick={() => removeHistory(id)}> - </button>
           <input
