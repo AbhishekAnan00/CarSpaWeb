@@ -25,28 +25,31 @@ app.use("/api/user", user_route);
 // Checkout endpoint
 app.post("/checkout", async (req, res) => {
   try {
-    const { items } = req.body;
+      const { items } = req.body;
 
-    // Create a Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      line_items: items.map((item) => ({
-        price_data: {
-          currency: "inr",
-          product_data: {
-            name: item.name,
-          },
-          unit_amount: item.price * 100,
-        },
-        quantity: item.quantity,
-      })),
-    });
+      // Create a Stripe checkout session
+      const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          line_items: items.map(item => ({
+              price_data: {
+                  currency: 'inr', // Set currency to Indian Rupee (INR)
+                  product_data: {
+                      name: item.name,
+                  },
+                  unit_amount: item.price * 100, // Convert price to cents
+              },
+              quantity: item.quantity,
+          })),
+          mode: 'payment',
+          success_url: 'http://localhost:3000/success',
+          cancel_url: 'http://localhost:3000/cancel',
+      });
 
-    res.json({ sessionId: session.id }); // Return session ID
+      // Return session ID to the client
+      res.json({ sessionId: session.id });
   } catch (error) {
-    console.error("Error processing checkout:", error);
-    res.status(500).json({ error: "An error occurred during checkout" });
+      console.error("Error processing checkout:", error);
+      res.status(500).json({ error: "An error occurred during checkout" });
   }
 });
 

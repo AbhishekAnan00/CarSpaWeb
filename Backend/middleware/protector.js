@@ -1,8 +1,12 @@
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 import User from "../model/user_model.js";
 
 const protector = async (req, res, next) => {
   try {
+    // Parse cookies from incoming requests
+    cookieParser()(req, res, () => {});
+
     const token = req.cookies.jwt; //Check if token is present in cookies
 
     if (!token) {
