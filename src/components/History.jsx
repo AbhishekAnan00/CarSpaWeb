@@ -41,7 +41,8 @@ export const History = () => {
         return null;
       }).filter((item) => item !== null);
 
-      const res = await fetch("http://localhost:3000/checkout", {
+      // Call backend to initiate checkout
+      const response = await fetch("http://localhost:9000/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,15 +50,15 @@ export const History = () => {
         body: JSON.stringify({ items }),
       });
 
-      const data = await res.json();
-      console.log("Checkout response:", data);
+      const data = await response.json();
+
       if (data.sessionId && stripe) {
-        const { error } = await stripe.redirectToCheckout({
+        const result = await stripe.redirectToCheckout({
           sessionId: data.sessionId,
         });
 
-        if (error) {
-          console.error("Error during checkout:", error.message);
+        if (result.error) {
+          console.error("Error during checkout:", result.error.message);
           toast.error('Payment failed');
         } else {
           toast.success('Payment successful');
