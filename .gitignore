@@ -25,3 +25,6 @@ dist-ssr
 
 # Allow everything within the Fronted folder
 !/Fronted/*
+
+# Additional changes
+.env
