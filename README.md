@@ -40,7 +40,7 @@ To run the Car Spa project locally, follow these steps:
    - Add environment variables for MongoDB connection URI, Stripe API keys, and any other sensitive information
 4. Run the development server: `npm run dev`
 5. Access the application in your browser at `http://localhost:3000`
-
+6. Use Dummy Card Info For INR
 ## Contribution
 
 Contributions to the Car Spa project are welcome! If you find any bugs or have suggestions for improvements, please feel free to open an issue or submit a pull request.
@@ -48,3 +48,8 @@ Contributions to the Car Spa project are welcome! If you find any bugs or have s
 ##Important ##Point 
 
 This code will be totally messed up by lit mistaken that is ##Submodule Concept !!
+
+##DEMO
+
+https://github.com/AbhishekAnan00/CarSpaWeb/assets/156063395/7647cff0-2e4f-432f-b4c6-9d2596b34c10
+
