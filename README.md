@@ -45,11 +45,11 @@ To run the Car Spa project locally, follow these steps:
 
 Contributions to the Car Spa project are welcome! If you find any bugs or have suggestions for improvements, please feel free to open an issue or submit a pull request.
 
-##Important ##Point 
+## Important 
 
-This code will be totally messed up by lit mistaken that is ##Submodule Concept !!
+This code will be totally messed up by lit mistaken that is **Submodule** Concept !!
 
-##DEMO
+## DEMO
 
 https://github.com/AbhishekAnan00/CarSpaWeb/assets/156063395/7647cff0-2e4f-432f-b4c6-9d2596b34c10
 
